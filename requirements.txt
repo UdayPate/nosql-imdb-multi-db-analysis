@@ -1,0 +1,7 @@
+
+pymongo==4.16.0
+pandas==3.0.1
+neo4j==5.28.1
+redis==5.2.1
+matplotlib==3.10.8
+dnspython==2.8.0

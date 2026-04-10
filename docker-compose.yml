@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+
+  # ── MongoDB Query Runner ──────────────────────────────────────────
+  mongodb-analytics:
+    build: .
+    container_name: imdb_mongodb_analytics
+    command: python scripts/mongodb_queries.py
+    volumes:
+      - ./output:/app/output   # save charts to host machine
+      - ./data:/app/data        # read CSV from host machine
+    environment:
+      - MONGO_URI=mongodb+srv://admin:Ud%40y0803!!@moviescluster.zjnt68i.mongodb.net/?retryWrites=true&w=majority&appName=MoviesCluster
+      - PYTHONUNBUFFERED=1
+
+  # ── Neo4j Query Runner ────────────────────────────────────────────
+  neo4j-analytics:
+    build: .
+    container_name: imdb_neo4j_analytics
+    command: python scripts/neo4j_queries.py
+    volumes:
+      - ./output:/app/output
+    environment:
+      - NEO4J_URI=neo4j+s://36a5d866.databases.neo4j.io
+      - NEO4J_USERNAME=36a5d866
+      - NEO4J_PASSWORD=cVAAMtM61SOZcUXtCNR8Hv7slad-nGutgNMeg2OfDtY
+      - PYTHONUNBUFFERED=1
+
+  # ── Redis Cache Demo ──────────────────────────────────────────────
+  redis-demo:
+    build: .
+    container_name: imdb_redis_demo
+    command: python scripts/redis_cache.py
+    environment:
+      - REDIS_HOST=redis-18599.c60.us-west-1-2.ec2.cloud.redislabs.com
+      - REDIS_PORT=18599
+      - REDIS_PASSWORD=WS5nrwhf51kc2lNdNGw6wUjLChNXjrMc
+      - PYTHONUNBUFFERED=1
